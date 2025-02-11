@@ -1,5 +1,4 @@
-# user-order-microservices
-Microservices: User & Order Services
+## Microservices: User & Order Services
 
 Overview
 
@@ -32,22 +31,29 @@ API Endpoints
 
 User Service
 
-POST /users - Create user
-
-GET /users/<id> - Get user by ID
-
-GET /users - Get all users
+POST /users        # Create user
+GET /users/<id>    # Get user by ID
+GET /users         # Get all users
 
 Order Service
 
-POST /create-order - Create order
+POST /create-order  # Create order
+GET /               # View orders (UI)
 
-GET / - View orders (UI)
+Future Enhancements
 
+Add database storage
 
+Implement Docker
 
-## License
+Introduce authentication
+
+Deploy to cloud platforms
+
+License
 
 This project is MIT licensed.
+
+
 
 
