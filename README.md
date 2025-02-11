@@ -2,54 +2,87 @@
 
 ## Overview
 
-This project uses Flask (User Service) on a Linux VM and Express.js (Order Service) on a Windows VM, communicating over a VirtualBox network.
+This project demonstrates the setup and deployment of a microservice-based application using VirtualBox. It involves configuring two Virtual Machines (VMs) – one running a Flask-based user service on Linux, and the other running an Express.js-based order service on Windows.
 
-## Technologies
+## Objective
 
-- Flask (Python) - User management
-- Express.js (Node.js) - Order processing
-- VirtualBox - VM setup
-- REST API - Service communication
+*   Create and configure VMs using VirtualBox.
+*   Establish network connectivity between the VMs.
+*   Deploy a Flask-based user service and an Express.js-based order service.
+*   Illustrate the microservices architecture.
 
 ## Setup
 
-### Linux VM (User Service)
-```
-sudo apt update && sudo apt install -y python3 python3-pip <br>
-pip install flask<br>
-python3 user.py # Runs on port 5001<br>
-```
+1.  **VirtualBox Installation:**
 
-### Windows VM (Order Service)
+    *   Download from [VirtualBox Official Website](https://www.virtualbox.org/).
+    *   Install using default options.
+    *   Verify with `VBoxManage --version` in your command prompt.
+2.  **Create Virtual Machines:**
 
-```
-npm install express
-node order.js # Runs on port 3000
-```
+    *   Create two VMs in VirtualBox: one for Linux (Ubuntu 22.04 LTS) and one for Windows (Windows 10).
+    *   Allocate appropriate memory and disk space.
+    *   Attach ISO images for OS installation.
+3.  **VM Configuration:**
 
-## API Endpoints
+    | Configuration         | VM1 (Linux)        | VM2 (Windows)      |
+    | --------------------- | ------------------ | ------------------ |
+    | OS                    | Ubuntu 22.04 LTS   | Windows 10         |
+    | CPU Cores             | 2                  | 2                  |
+    | Disk Space (GB)       | 50                 | 70                 |
+    | Network Adapter       | Host-only Ethernet | Host-only Ethernet |
+    | Virtualization        | Enabled            | Enabled            |
+    | Additional Features | SSH Enabled        | Remote Desktop       |
 
-### User Service
-```
-- `POST /users` - Create user
-- `GET /users/<id>` - Get user by ID
-- `GET /users` - Get all users
-```
+4.  **Network Configuration:**
 
-### Order Service 
+    *   Set network adapter to "Host-Only Adapter" in VirtualBox settings for both VMs.
+    *   Configure IP addresses and ensure VMs can ping each other.
 
-- `POST /create-order` - Create order
-- `GET /` - View orders (UI)
+## Microservices Deployment
 
-## Result 
+1.  **User Service (Linux VM):**
 
-- Add database storage
-- Implement Docker
-- Introduce authentication
-- Deploy to cloud platforms
+    ```
+    sudo apt update
+    sudo apt install python3 python3-pip -y
+    pip3 install flask
+    python3 user.py
+    ```
 
-## License
+2.  **Order Service (Windows VM):**
 
-This project is MIT licensed
+    ```
+    sudo apt update
+    sudo apt install nodejs npm -y
+    npm install express
+    node orders.js
+    ```
 
+## Architecture
 
+*   **User Service:** Flask-based service on Linux VM (port 5001).
+*   **Order Service:** Express.js-based service on Windows VM (port 3000).
+*   The Order Service may query the User Service to retrieve user details.
+
+## Testing
+
+1.  **User Service:**
+
+    ```
+    curl -X POST http://<linux-vm-ip>:5001/users -H "Content-Type: application/json" -d '{"name": "John Doe", "email": "john@example.com"}'
+    curl http://<linux-vm-ip>:5001/users
+    ```
+
+2.  **Order Service:**
+
+    ```
+    curl -X POST http://<nodejs-vm-ip>:3000/create-order -H "Content-Type: application/json" -d '{"orderId": 1, "product": "Laptop", "quantity": 2}'
+    curl http://<nodejs-vm-ip>:3000/
+    ```
+
+## Author
+
+*   Ankit Kumar Tiwary
+*   Roll: M23AID022
+*   Dept. of AIDE, IITJ
